@@ -46,6 +46,22 @@ public class AllocationController {
 		return new ResponseEntity<>(mapper.toAllocationDTO(allocations), HttpStatus.OK);
 	}
 
+	@ApiOperation(value = "Get Allocation by id")
+	@ApiResponses({
+		@ApiResponse(code = 200, message = "OK"),
+		@ApiResponse(code = 400, message = "Bad Request"),
+		@ApiResponse(code = 404, message = "Not Found")
+	})
+	@GetMapping(value = "/{id}")
+	public ResponseEntity<AllocationDTO> getAllocation(@PathVariable(value = "id") Long id) {
+		Allocation allocation = allocationService.findById(id);
+		if (allocation == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		} else {
+			return new ResponseEntity<>(mapper.toAllocationDTO(allocation), HttpStatus.OK);
+		}
+	}
+
 	@ApiOperation(value = "Get all allocations by professor")
 	@ApiResponses({
 		@ApiResponse(code = 200, message = "OK")
