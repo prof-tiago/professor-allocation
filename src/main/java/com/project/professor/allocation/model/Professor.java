@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "professor")
 public class Professor {
@@ -30,6 +32,7 @@ public class Professor {
 	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	private Departament departament;
 
+	@JsonBackReference
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "professor", fetch = FetchType.LAZY)
 	private List<Allocation> allocations;
 

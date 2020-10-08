@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "course")
 public class Course {
@@ -23,6 +25,7 @@ public class Course {
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
+	@JsonBackReference
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "course", fetch = FetchType.LAZY)
 	private List<Allocation> allocations;
 
