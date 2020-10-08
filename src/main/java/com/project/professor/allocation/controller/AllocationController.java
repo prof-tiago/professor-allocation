@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.professor.allocation.controller.mapper.AllocationMapper;
+import com.project.professor.allocation.dto.AllocationDTO;
 import com.project.professor.allocation.model.Allocation;
 import com.project.professor.allocation.service.AllocationService;
 
@@ -27,10 +29,12 @@ import io.swagger.annotations.ApiResponses;
 public class AllocationController {
 
 	private AllocationService allocationService;
+	private AllocationMapper mapper;
 
-	public AllocationController(AllocationService allocationService) {
+	public AllocationController(AllocationService allocationService, AllocationMapper mapper) {
 		super();
 		this.allocationService = allocationService;
+		this.mapper = mapper;
 	}
 
 	@ApiOperation(value = "Get all allocations")
@@ -39,9 +43,9 @@ public class AllocationController {
 	})
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<List<Allocation>> getAllocations() {
+	public ResponseEntity<List<AllocationDTO>> getAllocations() {
 		List<Allocation> allocations = allocationService.findAll();
-		return new ResponseEntity<>(allocations, HttpStatus.OK);
+		return new ResponseEntity<>(mapper.toAllocationDTO(allocations), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Get allocation by id")
@@ -52,12 +56,12 @@ public class AllocationController {
 	})
 	@GetMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Allocation> getAllocation(@PathVariable(value = "id") Long id) {
+	public ResponseEntity<AllocationDTO> getAllocation(@PathVariable(value = "id") Long id) {
 		Allocation allocation = allocationService.findById(id);
 		if (allocation == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<>(allocation, HttpStatus.OK);
+			return new ResponseEntity<>(mapper.toAllocationDTO(allocation), HttpStatus.OK);
 		}
 	}
 
@@ -69,9 +73,9 @@ public class AllocationController {
 	})
 	@GetMapping(value = "/professor/{professor_id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<List<Allocation>> getAllocationsByProfessor(@PathVariable(value = "professor_id") Long id) {
+	public ResponseEntity<List<AllocationDTO>> getAllocationsByProfessor(@PathVariable(value = "professor_id") Long id) {
 		List<Allocation> allocations = allocationService.findByProfessor(id);
-		return new ResponseEntity<>(allocations, HttpStatus.OK);
+		return new ResponseEntity<>(mapper.toAllocationDTO(allocations), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Get all allocations by course")
@@ -82,9 +86,9 @@ public class AllocationController {
 	})
 	@GetMapping(value = "/course/{course_id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<List<Allocation>> getAllocationsByCourse(@PathVariable(value = "course_id") Long id) {
+	public ResponseEntity<List<AllocationDTO>> getAllocationsByCourse(@PathVariable(value = "course_id") Long id) {
 		List<Allocation> allocations = allocationService.findByCourse(id);
-		return new ResponseEntity<>(allocations, HttpStatus.OK);
+		return new ResponseEntity<>(mapper.toAllocationDTO(allocations), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Create allocation")
@@ -94,12 +98,12 @@ public class AllocationController {
 	})
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Allocation> createAllocation(@RequestBody Allocation allocation) {
-		allocation = allocationService.save(allocation);
+	public ResponseEntity<AllocationDTO> createAllocation(@RequestBody AllocationDTO allocationDTO) {
+		Allocation allocation = allocationService.save(mapper.toAllocation(allocationDTO));
 		if (allocation == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-			return new ResponseEntity<>(allocation, HttpStatus.CREATED);
+			return new ResponseEntity<>(mapper.toAllocationDTO(allocation), HttpStatus.CREATED);
 		}
 	}
 
@@ -111,14 +115,14 @@ public class AllocationController {
 	})
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Allocation> updateAllocation(@PathVariable(value = "id") Long id,
-			@RequestBody Allocation allocation) {
-		allocation.setId(id);
-		allocation = allocationService.update(allocation);
+	public ResponseEntity<AllocationDTO> updateAllocation(@PathVariable(value = "id") Long id,
+			@RequestBody AllocationDTO allocationDTO) {
+		allocationDTO.setId(id);
+		Allocation allocation = allocationService.update(mapper.toAllocation(allocationDTO));
 		if (allocation == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<>(allocation, HttpStatus.OK);
+			return new ResponseEntity<>(mapper.toAllocationDTO(allocation), HttpStatus.OK);
 		}
 	}
 

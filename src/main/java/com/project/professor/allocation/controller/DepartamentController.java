@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.professor.allocation.controller.mapper.DepartamentMapper;
+import com.project.professor.allocation.dto.DepartamentBaseDTO;
+import com.project.professor.allocation.dto.DepartamentDTO;
 import com.project.professor.allocation.model.Departament;
 import com.project.professor.allocation.service.DepartamentService;
 
@@ -28,10 +31,12 @@ import io.swagger.annotations.ApiResponses;
 public class DepartamentController {
 
 	private DepartamentService departamentService;
+	private DepartamentMapper mapper;
 
-	public DepartamentController(DepartamentService departamentService) {
+	public DepartamentController(DepartamentService departamentService, DepartamentMapper mapper) {
 		super();
 		this.departamentService = departamentService;
+		this.mapper = mapper;
 	}
 
 	@ApiOperation(value = "Get all departaments")
@@ -40,10 +45,10 @@ public class DepartamentController {
 	})
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<List<Departament>> getDepartaments(
+	public ResponseEntity<List<DepartamentBaseDTO>> getDepartaments(
 			@RequestParam(name = "name", required = false) String name) {
 		List<Departament> departaments = departamentService.findAll(name);
-		return new ResponseEntity<>(departaments, HttpStatus.OK);
+		return new ResponseEntity<>(mapper.toDepartamentBaseDTO(departaments), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Get departament")
@@ -54,12 +59,12 @@ public class DepartamentController {
 	})
 	@GetMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Departament> getDepartament(@PathVariable(value = "id") Long id) {
+	public ResponseEntity<DepartamentDTO> getDepartament(@PathVariable(value = "id") Long id) {
 		Departament departament = departamentService.findById(id);
 		if (departament == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<>(departament, HttpStatus.OK);
+			return new ResponseEntity<>(mapper.toDepartamentDTO(departament), HttpStatus.OK);
 		}
 	}
 
@@ -70,12 +75,12 @@ public class DepartamentController {
 	})
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Departament> createDepartament(@RequestBody Departament departament) {
-		departament = departamentService.save(departament);
+	public ResponseEntity<DepartamentBaseDTO> createDepartament(@RequestBody DepartamentBaseDTO departamentBaseDTO) {
+		Departament departament = departamentService.save(mapper.toDepartament(departamentBaseDTO));
 		if (departament == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-			return new ResponseEntity<>(departament, HttpStatus.CREATED);
+			return new ResponseEntity<>(mapper.toDepartamentBaseDTO(departament), HttpStatus.CREATED);
 		}
 	}
 
@@ -87,14 +92,14 @@ public class DepartamentController {
 	})
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Departament> updateDepartament(@PathVariable(value = "id") Long id,
-			@RequestBody Departament departament) {
-		departament.setId(id);
-		departament = departamentService.update(departament);
+	public ResponseEntity<DepartamentBaseDTO> updateDepartament(@PathVariable(value = "id") Long id,
+			@RequestBody DepartamentBaseDTO departamentBaseDTO) {
+		departamentBaseDTO.setId(id);
+		Departament departament = departamentService.update(mapper.toDepartament(departamentBaseDTO));
 		if (departament == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<>(departament, HttpStatus.OK);
+			return new ResponseEntity<>(mapper.toDepartamentBaseDTO(departament), HttpStatus.OK);
 		}
 	}
 

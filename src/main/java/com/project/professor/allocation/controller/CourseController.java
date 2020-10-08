@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.professor.allocation.controller.mapper.CourseMapper;
+import com.project.professor.allocation.dto.CourseBaseDTO;
+import com.project.professor.allocation.dto.CourseDTO;
 import com.project.professor.allocation.model.Course;
 import com.project.professor.allocation.service.CourseService;
 
@@ -28,10 +31,12 @@ import io.swagger.annotations.ApiResponses;
 public class CourseController {
 
 	private CourseService courseService;
+	private CourseMapper mapper;
 
-	public CourseController(CourseService courseService) {
+	public CourseController(CourseService courseService, CourseMapper mapper) {
 		super();
 		this.courseService = courseService;
+		this.mapper = mapper;
 	}
 
 	@ApiOperation(value = "Get all courses")
@@ -40,9 +45,9 @@ public class CourseController {
 	})
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<List<Course>> getCourses(@RequestParam(name = "name", required = false) String name) {
+	public ResponseEntity<List<CourseBaseDTO>> getCourses(@RequestParam(name = "name", required = false) String name) {
 		List<Course> courses = courseService.findAll(name);
-		return new ResponseEntity<>(courses, HttpStatus.OK);
+		return new ResponseEntity<>(mapper.toCourseBaseDTO(courses), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Get course")
@@ -53,12 +58,12 @@ public class CourseController {
 	})
 	@GetMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Course> getCourse(@PathVariable(value = "id") Long id) {
+	public ResponseEntity<CourseDTO> getCourse(@PathVariable(value = "id") Long id) {
 		Course course = courseService.findById(id);
 		if (course == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<>(course, HttpStatus.OK);
+			return new ResponseEntity<>(mapper.toCourseDTO(course), HttpStatus.OK);
 		}
 	}
 
@@ -69,12 +74,12 @@ public class CourseController {
 	})
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Course> createCourse(@RequestBody Course course) {
-		course = courseService.save(course);
+	public ResponseEntity<CourseBaseDTO> createCourse(@RequestBody CourseBaseDTO courseBaseDTO) {
+		Course course = courseService.save(mapper.toCourse(courseBaseDTO));
 		if (course == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-			return new ResponseEntity<>(course, HttpStatus.CREATED);
+			return new ResponseEntity<>(mapper.toCourseBaseDTO(course), HttpStatus.CREATED);
 		}
 	}
 
@@ -86,13 +91,13 @@ public class CourseController {
 	})
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Course> updateCourse(@PathVariable(value = "id") Long id, @RequestBody Course course) {
-		course.setId(id);
-		course = courseService.update(course);
+	public ResponseEntity<CourseBaseDTO> updateCourse(@PathVariable(value = "id") Long id, @RequestBody CourseBaseDTO courseBaseDTO) {
+		courseBaseDTO.setId(id);
+		Course course = courseService.update(mapper.toCourse(courseBaseDTO));
 		if (course == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<>(course, HttpStatus.OK);
+			return new ResponseEntity<>(mapper.toCourseBaseDTO(course), HttpStatus.OK);
 		}
 	}
 

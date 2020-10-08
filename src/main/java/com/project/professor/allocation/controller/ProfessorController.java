@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.professor.allocation.controller.mapper.ProfessorMapper;
+import com.project.professor.allocation.dto.ProfessorBaseDTO;
+import com.project.professor.allocation.dto.ProfessorDTO;
 import com.project.professor.allocation.model.Professor;
 import com.project.professor.allocation.service.ProfessorService;
 
@@ -28,10 +31,12 @@ import io.swagger.annotations.ApiResponses;
 public class ProfessorController {
 
 	private ProfessorService professorService;
+	private ProfessorMapper mapper;
 
-	public ProfessorController(ProfessorService professorService) {
+	public ProfessorController(ProfessorService professorService, ProfessorMapper mapper) {
 		super();
 		this.professorService = professorService;
+		this.mapper = mapper;
 	}
 
 	@ApiOperation(value = "Get all professors")
@@ -40,9 +45,9 @@ public class ProfessorController {
 	})
 	@GetMapping
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<List<Professor>> getProfessors(@RequestParam(name = "name", required = false) String name) {
+	public ResponseEntity<List<ProfessorBaseDTO>> getProfessors(@RequestParam(name = "name", required = false) String name) {
 		List<Professor> professors = professorService.findAll(name);
-		return new ResponseEntity<>(professors, HttpStatus.OK);
+		return new ResponseEntity<>(mapper.toProfessorBaseDTO(professors), HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "Get professor")
@@ -53,12 +58,12 @@ public class ProfessorController {
 	})
 	@GetMapping(value = "/{id}")
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Professor> getProfessor(@PathVariable(value = "id") Long id) {
+	public ResponseEntity<ProfessorDTO> getProfessor(@PathVariable(value = "id") Long id) {
 		Professor professor = professorService.findById(id);
 		if (professor == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<>(professor, HttpStatus.OK);
+			return new ResponseEntity<>(mapper.toProfessorDTO(professor), HttpStatus.OK);
 		}
 	}
 
@@ -69,12 +74,12 @@ public class ProfessorController {
 	})
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public ResponseEntity<Professor> createProfessor(@RequestBody Professor professor) {
-		professor = professorService.save(professor);
+	public ResponseEntity<ProfessorBaseDTO> createProfessor(@RequestBody ProfessorBaseDTO professorBaseDTO) {
+		Professor professor = professorService.save(mapper.toProfessor(professorBaseDTO));
 		if (professor == null) {
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		} else {
-			return new ResponseEntity<>(professor, HttpStatus.CREATED);
+			return new ResponseEntity<>(mapper.toProfessorBaseDTO(professor), HttpStatus.CREATED);
 		}
 	}
 
@@ -86,14 +91,14 @@ public class ProfessorController {
 	})
 	@PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public ResponseEntity<Professor> updateProfessor(@PathVariable(value = "id") Long id,
-			@RequestBody Professor professor) {
-		professor.setId(id);
-		professor = professorService.update(professor);
+	public ResponseEntity<ProfessorBaseDTO> updateProfessor(@PathVariable(value = "id") Long id,
+			@RequestBody ProfessorBaseDTO professorBaseDTO) {
+		professorBaseDTO.setId(id);
+		Professor professor = professorService.update(mapper.toProfessor(professorBaseDTO));
 		if (professor == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		} else {
-			return new ResponseEntity<>(professor, HttpStatus.OK);
+			return new ResponseEntity<>(mapper.toProfessorBaseDTO(professor), HttpStatus.OK);
 		}
 	}
 
