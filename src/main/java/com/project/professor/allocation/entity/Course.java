@@ -1,10 +1,11 @@
 package com.project.professor.allocation.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "course")
@@ -20,4 +21,10 @@ public class Course {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "course")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Allocation> allocations;
 }
