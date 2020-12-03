@@ -1,9 +1,11 @@
 package com.project.professor.allocation.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "professor")
@@ -25,4 +27,10 @@ public class Professor {
     @ManyToOne(optional = false)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
+
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "professor")
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    private List<Allocation> allocations;
 }
