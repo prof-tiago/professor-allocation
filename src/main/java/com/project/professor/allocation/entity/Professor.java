@@ -21,4 +21,8 @@ public class Professor {
 
     @Column(name = "cpf", unique = true, nullable = false)
     private String cpf;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 }

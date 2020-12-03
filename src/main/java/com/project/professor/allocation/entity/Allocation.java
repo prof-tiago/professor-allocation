@@ -29,4 +29,12 @@ public class Allocation {
     @Temporal(TemporalType.TIME)
     @Column(name = "end", nullable = false)
     private Date endHour;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "professor_id", nullable = false)
+    private Professor professor;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
 }
