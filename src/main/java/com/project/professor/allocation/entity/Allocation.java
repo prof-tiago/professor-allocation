@@ -16,6 +16,8 @@ import java.util.Date;
 @Data
 public class Allocation {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
