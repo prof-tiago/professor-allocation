@@ -3,8 +3,7 @@ package com.project.professor.allocation.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Date;
 
@@ -17,9 +16,15 @@ public class Allocation {
 
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "day", nullable = false)
     private DayOfWeek dayOfWeek;
 
+    @Temporal(TemporalType.TIME)
+    @Column(name = "start", nullable = false)
     private Date startHour;
 
+    @Temporal(TemporalType.TIME)
+    @Column(name = "end", nullable = false)
     private Date endHour;
 }
