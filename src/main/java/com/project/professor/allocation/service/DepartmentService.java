@@ -2,6 +2,7 @@ package com.project.professor.allocation.service;
 
 import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.repository.DepartmentRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,5 +27,19 @@ public class DepartmentService {
 
     public Department findById(Long id) {
         return departmentRepository.findById(id).orElse(null);
+    }
+
+    public Department save(Department department) {
+        department.setId(null);
+        return saveInternal(department);
+    }
+
+    private Department saveInternal(Department department) {
+        try {
+            return departmentRepository.save(department);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

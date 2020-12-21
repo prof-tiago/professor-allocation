@@ -2,6 +2,7 @@ package com.project.professor.allocation.service;
 
 import com.project.professor.allocation.entity.Course;
 import com.project.professor.allocation.repository.CourseRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,5 +27,19 @@ public class CourseService {
 
     public Course findById(Long id) {
         return courseRepository.findById(id).orElse(null);
+    }
+
+    public Course save(Course course) {
+        course.setId(null);
+        return saveInternal(course);
+    }
+
+    private Course saveInternal(Course course) {
+        try {
+            return courseRepository.save(course);
+        } catch (DataIntegrityViolationException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
