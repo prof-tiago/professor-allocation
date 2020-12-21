@@ -48,4 +48,17 @@ public class DepartmentController {
             return new ResponseEntity<>(department, HttpStatus.CREATED);
         }
     }
+
+    @PutMapping(path = "/{department_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Department> update(@PathVariable(name = "department_id") Long id,
+                                             @RequestBody Department department) {
+        department.setId(id);
+        department = departmentService.update(department);
+        if (department == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(department, HttpStatus.OK);
+        }
+    }
 }

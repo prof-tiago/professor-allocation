@@ -62,4 +62,17 @@ public class AllocationController {
             return new ResponseEntity<>(allocation, HttpStatus.CREATED);
         }
     }
+
+    @PutMapping(path = "/{allocation_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Allocation> update(@PathVariable(name = "allocation_id") Long id,
+                                             @RequestBody Allocation allocation) {
+        allocation.setId(id);
+        allocation = allocationService.update(allocation);
+        if (allocation == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(allocation, HttpStatus.OK);
+        }
+    }
 }

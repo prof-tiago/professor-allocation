@@ -48,4 +48,17 @@ public class CourseController {
             return new ResponseEntity<>(course, HttpStatus.CREATED);
         }
     }
+
+    @PutMapping(path = "/{course_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Course> update(@PathVariable(name = "course_id") Long id,
+                                         @RequestBody Course course) {
+        course.setId(id);
+        course = courseService.update(course);
+        if (course == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(course, HttpStatus.OK);
+        }
+    }
 }

@@ -55,4 +55,17 @@ public class ProfessorController {
             return new ResponseEntity<>(professor, HttpStatus.CREATED);
         }
     }
+
+    @PutMapping(path = "/{professor_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Professor> update(@PathVariable(name = "professor_id") Long id,
+                                            @RequestBody Professor professor) {
+        professor.setId(id);
+        professor = professorService.update(professor);
+        if (professor == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(professor, HttpStatus.OK);
+        }
+    }
 }
