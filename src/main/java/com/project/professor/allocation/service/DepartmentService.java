@@ -47,6 +47,16 @@ public class DepartmentService {
         return saveInternal(department);
     }
 
+    public void deleteById(Long id) {
+        if (id != null && departmentRepository.existsById(id)) {
+            departmentRepository.deleteById(id);
+        }
+    }
+
+    public void deleteAll() {
+        departmentRepository.deleteAllInBatch();
+    }
+
     private Department saveInternal(Department department) {
         try {
             return departmentRepository.save(department);

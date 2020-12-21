@@ -58,6 +58,16 @@ public class AllocationService {
         return saveInternal(allocation);
     }
 
+    public void deleteById(Long id) {
+        if (id != null && allocationRepository.existsById(id)) {
+            allocationRepository.deleteById(id);
+        }
+    }
+
+    public void deleteAll() {
+        allocationRepository.deleteAllInBatch();
+    }
+
     private Allocation saveInternal(Allocation allocation) {
         try {
             if (!hasCollision(allocation)) {

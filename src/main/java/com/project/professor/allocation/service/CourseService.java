@@ -47,6 +47,16 @@ public class CourseService {
         return saveInternal(course);
     }
 
+    public void deleteById(Long id) {
+        if (id != null && courseRepository.existsById(id)) {
+            courseRepository.deleteById(id);
+        }
+    }
+
+    public void deleteAll() {
+        courseRepository.deleteAllInBatch();
+    }
+
     private Course saveInternal(Course course) {
         try {
             return courseRepository.save(course);

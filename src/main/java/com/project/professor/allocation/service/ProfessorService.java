@@ -54,6 +54,16 @@ public class ProfessorService {
         return saveInternal(professor);
     }
 
+    public void deleteById(Long id) {
+        if (id != null && professorRepository.existsById(id)) {
+            professorRepository.deleteById(id);
+        }
+    }
+
+    public void deleteAll() {
+        professorRepository.deleteAllInBatch();
+    }
+
     private Professor saveInternal(Professor professor) {
         try {
             professor = professorRepository.save(professor);
