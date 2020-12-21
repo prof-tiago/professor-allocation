@@ -68,4 +68,18 @@ public class ProfessorController {
             return new ResponseEntity<>(professor, HttpStatus.OK);
         }
     }
+
+    @DeleteMapping(path = "/{professor_id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> deleteById(@PathVariable(name = "professor_id") Long id) {
+        professorService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> deleteAll() {
+        professorService.deleteAll();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

@@ -61,4 +61,18 @@ public class DepartmentController {
             return new ResponseEntity<>(department, HttpStatus.OK);
         }
     }
+
+    @DeleteMapping(path = "/{department_id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> deleteById(@PathVariable(name = "department_id") Long id) {
+        departmentService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> deleteAll() {
+        departmentService.deleteAll();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

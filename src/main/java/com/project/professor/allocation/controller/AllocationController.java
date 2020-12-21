@@ -75,4 +75,18 @@ public class AllocationController {
             return new ResponseEntity<>(allocation, HttpStatus.OK);
         }
     }
+
+    @DeleteMapping(path = "/{allocation_id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> deleteById(@PathVariable(name = "allocation_id") Long id) {
+        allocationService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public ResponseEntity<Void> deleteAll() {
+        allocationService.deleteAll();
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
