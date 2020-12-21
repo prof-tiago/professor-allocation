@@ -1,9 +1,13 @@
 package com.project.professor.allocation.controller;
 
+import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.service.DepartmentService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/departments", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -14,5 +18,23 @@ public class DepartmentController {
     public DepartmentController(DepartmentService departmentService) {
         super();
         this.departmentService = departmentService;
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<Department>> findAll(@RequestParam(name = "name", required = false) String name) {
+        List<Department> departments = departmentService.findAll(name);
+        return new ResponseEntity<>(departments, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{department_id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Department> findById(@PathVariable(name = "department_id") Long id) {
+        Department department = departmentService.findById(id);
+        if (department == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            return new ResponseEntity<>(department, HttpStatus.OK);
+        }
     }
 }
