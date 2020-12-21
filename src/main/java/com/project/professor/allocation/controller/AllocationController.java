@@ -51,4 +51,15 @@ public class AllocationController {
         List<Allocation> allocations = allocationService.findByCourse(id);
         return new ResponseEntity<>(allocations, HttpStatus.OK);
     }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Allocation> save(@RequestBody Allocation allocation) {
+        allocation = allocationService.save(allocation);
+        if (allocation == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(allocation, HttpStatus.CREATED);
+        }
+    }
 }

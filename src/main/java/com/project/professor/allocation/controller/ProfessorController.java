@@ -44,4 +44,15 @@ public class ProfessorController {
         List<Professor> professors = professorService.findByDepartment(id);
         return new ResponseEntity<>(professors, HttpStatus.OK);
     }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Professor> save(@RequestBody Professor professor) {
+        professor = professorService.save(professor);
+        if (professor == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(professor, HttpStatus.CREATED);
+        }
+    }
 }

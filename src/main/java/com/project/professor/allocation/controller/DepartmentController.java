@@ -37,4 +37,15 @@ public class DepartmentController {
             return new ResponseEntity<>(department, HttpStatus.OK);
         }
     }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Department> save(@RequestBody Department department) {
+        department = departmentService.save(department);
+        if (department == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(department, HttpStatus.CREATED);
+        }
+    }
 }

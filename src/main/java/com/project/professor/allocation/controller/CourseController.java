@@ -37,4 +37,15 @@ public class CourseController {
             return new ResponseEntity<>(course, HttpStatus.OK);
         }
     }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Course> save(@RequestBody Course course) {
+        course = courseService.save(course);
+        if (course == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(course, HttpStatus.CREATED);
+        }
+    }
 }
