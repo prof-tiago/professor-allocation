@@ -41,6 +41,19 @@ public class ProfessorService {
         return saveInternal(professor);
     }
 
+    public Professor update(Professor professor) {
+        Long id = professor.getId();
+        if (id == null) {
+            return null;
+        }
+
+        if (!professorRepository.existsById(id)) {
+            return null;
+        }
+
+        return saveInternal(professor);
+    }
+
     private Professor saveInternal(Professor professor) {
         try {
             professor = professorRepository.save(professor);

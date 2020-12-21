@@ -34,6 +34,19 @@ public class CourseService {
         return saveInternal(course);
     }
 
+    public Course update(Course course) {
+        Long id = course.getId();
+        if (id == null) {
+            return null;
+        }
+
+        if (!courseRepository.existsById(id)) {
+            return null;
+        }
+
+        return saveInternal(course);
+    }
+
     private Course saveInternal(Course course) {
         try {
             return courseRepository.save(course);

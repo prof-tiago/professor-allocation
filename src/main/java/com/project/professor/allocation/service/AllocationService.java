@@ -45,6 +45,19 @@ public class AllocationService {
         return saveInternal(allocation);
     }
 
+    public Allocation update(Allocation allocation) {
+        Long id = allocation.getId();
+        if (id == null) {
+            return null;
+        }
+
+        if (!allocationRepository.existsById(id)) {
+            return null;
+        }
+
+        return saveInternal(allocation);
+    }
+
     private Allocation saveInternal(Allocation allocation) {
         try {
             if (!hasCollision(allocation)) {

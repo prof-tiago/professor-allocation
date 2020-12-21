@@ -34,6 +34,19 @@ public class DepartmentService {
         return saveInternal(department);
     }
 
+    public Department update(Department department) {
+        Long id = department.getId();
+        if (id == null) {
+            return null;
+        }
+
+        if (!departmentRepository.existsById(id)) {
+            return null;
+        }
+
+        return saveInternal(department);
+    }
+
     private Department saveInternal(Department department) {
         try {
             return departmentRepository.save(department);
