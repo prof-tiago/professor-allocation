@@ -69,6 +69,12 @@ public class DepartmentController {
         }
     }
 
+    @ApiOperation(value = "Update a department")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
+    })
     @PutMapping(path = "/{department_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Department> update(@PathVariable(name = "department_id") Long id,

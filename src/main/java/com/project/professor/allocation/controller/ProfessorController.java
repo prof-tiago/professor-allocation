@@ -82,6 +82,12 @@ public class ProfessorController {
         }
     }
 
+    @ApiOperation(value = "Update a professor")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
+    })
     @PutMapping(path = "/{professor_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Professor> update(@PathVariable(name = "professor_id") Long id,

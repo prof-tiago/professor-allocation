@@ -69,6 +69,12 @@ public class CourseController {
         }
     }
 
+    @ApiOperation(value = "Update a course")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
+    })
     @PutMapping(path = "/{course_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Course> update(@PathVariable(name = "course_id") Long id,
