@@ -53,6 +53,11 @@ public class DepartmentController {
         }
     }
 
+    @ApiOperation(value = "Save a department")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400, message = "Bad Request")
+    })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Department> save(@RequestBody Department department) {

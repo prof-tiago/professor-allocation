@@ -66,6 +66,11 @@ public class ProfessorController {
         return new ResponseEntity<>(professors, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Save a professor")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400, message = "Bad Request")
+    })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Professor> save(@RequestBody Professor professor) {

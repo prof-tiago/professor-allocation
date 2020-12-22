@@ -79,6 +79,11 @@ public class AllocationController {
         return new ResponseEntity<>(allocations, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Save an allocation")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400, message = "Bad Request")
+    })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Allocation> save(@RequestBody Allocation allocation) {
