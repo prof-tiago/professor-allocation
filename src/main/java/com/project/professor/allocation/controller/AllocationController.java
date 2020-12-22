@@ -2,6 +2,7 @@ package com.project.professor.allocation.controller;
 
 import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.service.AllocationService;
+import io.swagger.annotations.Api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Api(tags = {"allocations"})
 @RestController
 @RequestMapping(path = "/allocations", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AllocationController {
