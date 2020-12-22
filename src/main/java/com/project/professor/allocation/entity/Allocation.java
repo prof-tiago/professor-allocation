@@ -1,5 +1,6 @@
 package com.project.professor.allocation.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,10 +24,12 @@ public class Allocation {
     @Column(name = "day", nullable = false)
     private DayOfWeek dayOfWeek;
 
+    @JsonFormat(pattern = "HH:mmZ")
     @Temporal(TemporalType.TIME)
     @Column(name = "start", nullable = false)
     private Date startHour;
 
+    @JsonFormat(pattern = "HH:mmZ")
     @Temporal(TemporalType.TIME)
     @Column(name = "end", nullable = false)
     private Date endHour;
