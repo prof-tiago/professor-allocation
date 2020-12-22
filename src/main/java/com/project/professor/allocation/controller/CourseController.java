@@ -88,6 +88,11 @@ public class CourseController {
         }
     }
 
+    @ApiOperation(value = "Delete a course")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "No Content"),
+            @ApiResponse(code = 400, message = "Bad Request")
+    })
     @DeleteMapping(path = "/{course_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteById(@PathVariable(name = "course_id") Long id) {
@@ -95,6 +100,10 @@ public class CourseController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @ApiOperation(value = "Delete all courses")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "No Content")
+    })
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteAll() {

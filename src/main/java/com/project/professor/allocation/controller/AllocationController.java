@@ -114,6 +114,11 @@ public class AllocationController {
         }
     }
 
+    @ApiOperation(value = "Delete an allocation")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "No Content"),
+            @ApiResponse(code = 400, message = "Bad Request")
+    })
     @DeleteMapping(path = "/{allocation_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteById(@PathVariable(name = "allocation_id") Long id) {
@@ -121,6 +126,10 @@ public class AllocationController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @ApiOperation(value = "Delete all allocations")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "No Content")
+    })
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteAll() {

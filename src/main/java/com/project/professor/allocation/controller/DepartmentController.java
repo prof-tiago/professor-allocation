@@ -88,6 +88,11 @@ public class DepartmentController {
         }
     }
 
+    @ApiOperation(value = "Delete a department")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "No Content"),
+            @ApiResponse(code = 400, message = "Bad Request")
+    })
     @DeleteMapping(path = "/{department_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteById(@PathVariable(name = "department_id") Long id) {
@@ -95,6 +100,10 @@ public class DepartmentController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @ApiOperation(value = "Delete all departments")
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "No Content")
+    })
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteAll() {
