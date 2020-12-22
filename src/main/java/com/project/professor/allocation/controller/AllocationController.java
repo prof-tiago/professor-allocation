@@ -3,6 +3,9 @@ package com.project.professor.allocation.controller;
 import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.service.AllocationService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,10 @@ public class AllocationController {
         this.allocationService = allocationService;
     }
 
+    @ApiOperation(value = "Find all allocations")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK")
+    })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Allocation>> findAll() {
@@ -29,6 +36,12 @@ public class AllocationController {
         return new ResponseEntity<>(allocations, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Find an allocation by id")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
+    })
     @GetMapping(path = "/{allocation_id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Allocation> findById(@PathVariable(name = "allocation_id") Long id) {
@@ -40,6 +53,12 @@ public class AllocationController {
         }
     }
 
+    @ApiOperation(value = "Find allocations by professor")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
+    })
     @GetMapping(path = "/professor/{professor_id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Allocation>> findByProfessor(@PathVariable(name = "professor_id") Long id) {
@@ -47,6 +66,12 @@ public class AllocationController {
         return new ResponseEntity<>(allocations, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Find allocations by course")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
+    })
     @GetMapping(path = "/course/{course_id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Allocation>> findByCourse(@PathVariable(name = "course_id") Long id) {

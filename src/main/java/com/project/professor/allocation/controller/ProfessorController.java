@@ -3,6 +3,9 @@ package com.project.professor.allocation.controller;
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.service.ProfessorService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,10 @@ public class ProfessorController {
         this.professorService = professorService;
     }
 
+    @ApiOperation(value = "Find all professors")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK")
+    })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Professor>> findAll(@RequestParam(name = "name", required = false) String name) {
@@ -29,6 +36,12 @@ public class ProfessorController {
         return new ResponseEntity<>(professors, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Find a professor")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
+    })
     @GetMapping(path = "/{professor_id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Professor> findById(@PathVariable(name = "professor_id") Long id) {
@@ -40,6 +53,12 @@ public class ProfessorController {
         }
     }
 
+    @ApiOperation(value = "Find professors by department")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK"),
+            @ApiResponse(code = 400, message = "Bad Request"),
+            @ApiResponse(code = 404, message = "Not Found")
+    })
     @GetMapping(path = "/department/{department_id}")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<List<Professor>> findByDepartment(@PathVariable(name = "department_id") Long id) {
