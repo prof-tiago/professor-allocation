@@ -1,5 +1,6 @@
 package com.project.professor.allocation.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,10 +31,12 @@ public class Allocation {
     @Column(name = "end", nullable = false)
     private Date endHour;
 
+    @JsonIgnoreProperties({"allocations"})
     @ManyToOne(optional = false)
     @JoinColumn(name = "professor_id", nullable = false)
     private Professor professor;
 
+    @JsonIgnoreProperties({"allocations"})
     @ManyToOne(optional = false)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
