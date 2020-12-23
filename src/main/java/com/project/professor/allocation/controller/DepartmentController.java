@@ -83,14 +83,14 @@ public class DepartmentController {
     })
     @PutMapping(path = "/{department_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Department> update(@PathVariable(name = "department_id") Long id,
-                                             @RequestBody Department department) {
-        department.setId(id);
-        department = departmentService.update(department);
+    public ResponseEntity<DepartmentSimpleDTO> update(@PathVariable(name = "department_id") Long id,
+                                                      @RequestBody DepartmentCreationDTO departmentDTO) {
+        departmentDTO.setId(id);
+        Department department = departmentService.update(mapper.toEntity(departmentDTO));
         if (department == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(department, HttpStatus.OK);
+            return new ResponseEntity<>(mapper.toSimpleDTO(department), HttpStatus.OK);
         }
     }
 

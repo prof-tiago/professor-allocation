@@ -109,14 +109,14 @@ public class AllocationController {
     })
     @PutMapping(path = "/{allocation_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Allocation> update(@PathVariable(name = "allocation_id") Long id,
-                                             @RequestBody Allocation allocation) {
-        allocation.setId(id);
-        allocation = allocationService.update(allocation);
+    public ResponseEntity<AllocationSimpleDTO> update(@PathVariable(name = "allocation_id") Long id,
+                                                      @RequestBody AllocationCreationDTO allocationDTO) {
+        allocationDTO.setId(id);
+        Allocation allocation = allocationService.update(mapper.toEntity(allocationDTO));
         if (allocation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(allocation, HttpStatus.OK);
+            return new ResponseEntity<>(mapper.toSimpleDTO(allocation), HttpStatus.OK);
         }
     }
 

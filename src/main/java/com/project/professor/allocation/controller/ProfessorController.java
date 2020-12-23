@@ -96,14 +96,14 @@ public class ProfessorController {
     })
     @PutMapping(path = "/{professor_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Professor> update(@PathVariable(name = "professor_id") Long id,
-                                            @RequestBody Professor professor) {
-        professor.setId(id);
-        professor = professorService.update(professor);
+    public ResponseEntity<ProfessorSimpleDTO> update(@PathVariable(name = "professor_id") Long id,
+                                                     @RequestBody ProfessorCreationDTO professorDTO) {
+        professorDTO.setId(id);
+        Professor professor = professorService.update(mapper.toEntity(professorDTO));
         if (professor == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(professor, HttpStatus.OK);
+            return new ResponseEntity<>(mapper.toSimpleDTO(professor), HttpStatus.OK);
         }
     }
 
