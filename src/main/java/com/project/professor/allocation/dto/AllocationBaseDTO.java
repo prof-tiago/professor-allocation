@@ -1,5 +1,6 @@
 package com.project.professor.allocation.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,9 @@ public class AllocationBaseDTO {
 
     private DayOfWeek dayOfWeek;
 
+    @JsonFormat(pattern = "HH:mmZ")
     private Date startHour;
 
+    @JsonFormat(pattern = "HH:mmZ")
     private Date endHour;
 }
