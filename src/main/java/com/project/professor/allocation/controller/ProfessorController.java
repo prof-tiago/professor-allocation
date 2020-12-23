@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = {"professors"})
@@ -79,7 +80,7 @@ public class ProfessorController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ProfessorSimpleDTO> save(@RequestBody ProfessorCreationDTO professorDTO) {
+    public ResponseEntity<ProfessorSimpleDTO> save(@Valid @RequestBody ProfessorCreationDTO professorDTO) {
         Professor professor = professorService.save(mapper.toEntity(professorDTO));
         if (professor == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -97,7 +98,7 @@ public class ProfessorController {
     @PutMapping(path = "/{professor_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ProfessorSimpleDTO> update(@PathVariable(name = "professor_id") Long id,
-                                                     @RequestBody ProfessorCreationDTO professorDTO) {
+                                                     @Valid @RequestBody ProfessorCreationDTO professorDTO) {
         professorDTO.setId(id);
         Professor professor = professorService.update(mapper.toEntity(professorDTO));
         if (professor == null) {

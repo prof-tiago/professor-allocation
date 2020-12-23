@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = {"courses"})
@@ -66,7 +67,7 @@ public class CourseController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<CourseSimpleDTO> save(@RequestBody CourseCreationDTO courseDTO) {
+    public ResponseEntity<CourseSimpleDTO> save(@Valid @RequestBody CourseCreationDTO courseDTO) {
         Course course = courseService.save(mapper.toEntity(courseDTO));
         if (course == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -84,7 +85,7 @@ public class CourseController {
     @PutMapping(path = "/{course_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CourseSimpleDTO> update(@PathVariable(name = "course_id") Long id,
-                                                  @RequestBody CourseCreationDTO courseDTO) {
+                                                  @Valid @RequestBody CourseCreationDTO courseDTO) {
         courseDTO.setId(id);
         Course course = courseService.update(mapper.toEntity(courseDTO));
         if (course == null) {

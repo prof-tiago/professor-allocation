@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = {"departments"})
@@ -66,7 +67,7 @@ public class DepartmentController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<DepartmentSimpleDTO> save(@RequestBody DepartmentCreationDTO departmentDTO) {
+    public ResponseEntity<DepartmentSimpleDTO> save(@Valid @RequestBody DepartmentCreationDTO departmentDTO) {
         Department department = departmentService.save(mapper.toEntity(departmentDTO));
         if (department == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -84,7 +85,7 @@ public class DepartmentController {
     @PutMapping(path = "/{department_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<DepartmentSimpleDTO> update(@PathVariable(name = "department_id") Long id,
-                                                      @RequestBody DepartmentCreationDTO departmentDTO) {
+                                                      @Valid @RequestBody DepartmentCreationDTO departmentDTO) {
         departmentDTO.setId(id);
         Department department = departmentService.update(mapper.toEntity(departmentDTO));
         if (department == null) {

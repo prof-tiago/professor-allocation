@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Api(tags = {"allocations"})
@@ -92,7 +93,7 @@ public class AllocationController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<AllocationSimpleDTO> save(@RequestBody AllocationCreationDTO allocationDTO) {
+    public ResponseEntity<AllocationSimpleDTO> save(@Valid @RequestBody AllocationCreationDTO allocationDTO) {
         Allocation allocation = allocationService.save(mapper.toEntity(allocationDTO));
         if (allocation == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -110,7 +111,7 @@ public class AllocationController {
     @PutMapping(path = "/{allocation_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<AllocationSimpleDTO> update(@PathVariable(name = "allocation_id") Long id,
-                                                      @RequestBody AllocationCreationDTO allocationDTO) {
+                                                      @Valid @RequestBody AllocationCreationDTO allocationDTO) {
         allocationDTO.setId(id);
         Allocation allocation = allocationService.update(mapper.toEntity(allocationDTO));
         if (allocation == null) {
