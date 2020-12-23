@@ -1,6 +1,7 @@
 package com.project.professor.allocation.controller;
 
 import com.project.professor.allocation.entity.Department;
+import com.project.professor.allocation.mapper.DepartmentMapper;
 import com.project.professor.allocation.service.DepartmentService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,10 +20,12 @@ import java.util.List;
 public class DepartmentController {
 
     private final DepartmentService departmentService;
+    private final DepartmentMapper mapper;
 
-    public DepartmentController(DepartmentService departmentService) {
+    public DepartmentController(DepartmentService departmentService, DepartmentMapper mapper) {
         super();
         this.departmentService = departmentService;
+        this.mapper = mapper;
     }
 
     @ApiOperation(value = "Find all departments")

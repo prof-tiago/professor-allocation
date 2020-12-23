@@ -1,6 +1,8 @@
 package com.project.professor.allocation.controller;
 
+import com.project.professor.allocation.dto.AllocationSimpleDTO;
 import com.project.professor.allocation.entity.Allocation;
+import com.project.professor.allocation.mapper.AllocationMapper;
 import com.project.professor.allocation.service.AllocationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,10 +21,12 @@ import java.util.List;
 public class AllocationController {
 
     private final AllocationService allocationService;
+    private final AllocationMapper mapper;
 
-    public AllocationController(AllocationService allocationService) {
+    public AllocationController(AllocationService allocationService, AllocationMapper mapper) {
         super();
         this.allocationService = allocationService;
+        this.mapper = mapper;
     }
 
     @ApiOperation(value = "Find all allocations")

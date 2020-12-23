@@ -1,6 +1,7 @@
 package com.project.professor.allocation.controller;
 
 import com.project.professor.allocation.entity.Course;
+import com.project.professor.allocation.mapper.CourseMapper;
 import com.project.professor.allocation.service.CourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,10 +20,12 @@ import java.util.List;
 public class CourseController {
 
     private final CourseService courseService;
+    private final CourseMapper mapper;
 
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, CourseMapper mapper) {
         super();
         this.courseService = courseService;
+        this.mapper = mapper;
     }
 
     @ApiOperation(value = "Find all courses")
