@@ -1,5 +1,6 @@
 package com.project.professor.allocation.controller;
 
+import com.project.professor.allocation.dto.ErrorDTO;
 import com.project.professor.allocation.dto.ProfessorCompleteDTO;
 import com.project.professor.allocation.dto.ProfessorCreationDTO;
 import com.project.professor.allocation.dto.ProfessorSimpleDTO;
@@ -46,8 +47,8 @@ public class ProfessorController {
     @ApiOperation(value = "Find a professor")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "Not Found")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
     })
     @GetMapping(path = "/{professor_id}")
     @ResponseStatus(HttpStatus.OK)
@@ -63,8 +64,8 @@ public class ProfessorController {
     @ApiOperation(value = "Find professors by department")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "Not Found")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
     })
     @GetMapping(path = "/department/{department_id}")
     @ResponseStatus(HttpStatus.OK)
@@ -76,7 +77,7 @@ public class ProfessorController {
     @ApiOperation(value = "Save a professor")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Created"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -92,8 +93,8 @@ public class ProfessorController {
     @ApiOperation(value = "Update a professor")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "Not Found")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
     })
     @PutMapping(path = "/{professor_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -111,7 +112,7 @@ public class ProfessorController {
     @ApiOperation(value = "Delete a professor")
     @ApiResponses({
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
     })
     @DeleteMapping(path = "/{professor_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -3,6 +3,7 @@ package com.project.professor.allocation.controller;
 import com.project.professor.allocation.dto.DepartmentCompleteDTO;
 import com.project.professor.allocation.dto.DepartmentCreationDTO;
 import com.project.professor.allocation.dto.DepartmentSimpleDTO;
+import com.project.professor.allocation.dto.ErrorDTO;
 import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.mapper.DepartmentMapper;
 import com.project.professor.allocation.service.DepartmentService;
@@ -46,8 +47,8 @@ public class DepartmentController {
     @ApiOperation(value = "Find a department by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "Not Found")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
     })
     @GetMapping(path = "/{department_id}")
     @ResponseStatus(HttpStatus.OK)
@@ -63,7 +64,7 @@ public class DepartmentController {
     @ApiOperation(value = "Save a department")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Created"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -79,8 +80,8 @@ public class DepartmentController {
     @ApiOperation(value = "Update a department")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "Not Found")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
     })
     @PutMapping(path = "/{department_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -98,7 +99,7 @@ public class DepartmentController {
     @ApiOperation(value = "Delete a department")
     @ApiResponses({
             @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
     })
     @DeleteMapping(path = "/{department_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
