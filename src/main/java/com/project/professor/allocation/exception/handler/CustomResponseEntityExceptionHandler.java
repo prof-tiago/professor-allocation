@@ -4,6 +4,7 @@ import com.project.professor.allocation.dto.ErrorDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,6 +23,12 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
     protected final ResponseEntity<Object> handle(Exception ex, WebRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         return handleExceptionInternal(ex, getErrorDTO(ex, status, request), new HttpHeaders(), status, request);
+    }
+
+    @Override
+    protected final ResponseEntity<Object> handleHttpMessageNotReadable(
+            HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return handleExceptionInternal(ex, getErrorDTO(ex, status, request), headers, status, request);
     }
 
     @Override
