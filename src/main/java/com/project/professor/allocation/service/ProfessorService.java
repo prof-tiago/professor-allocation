@@ -5,9 +5,11 @@ import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.repository.ProfessorRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class ProfessorService {
 
@@ -20,6 +22,7 @@ public class ProfessorService {
         this.departmentService = departmentService;
     }
 
+    @Transactional(readOnly = true)
     public List<Professor> findAll(String name) {
         if (name == null) {
             return professorRepository.findAll();
@@ -28,10 +31,12 @@ public class ProfessorService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Professor findById(Long id) {
         return professorRepository.findById(id).orElse(null);
     }
 
+    @Transactional(readOnly = true)
     public List<Professor> findByDepartment(Long departmentId) {
         return professorRepository.findByDepartmentId(departmentId);
     }
