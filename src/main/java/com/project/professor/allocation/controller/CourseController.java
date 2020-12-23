@@ -1,6 +1,7 @@
 package com.project.professor.allocation.controller;
 
 import com.project.professor.allocation.dto.CourseCompleteDTO;
+import com.project.professor.allocation.dto.CourseCreationDTO;
 import com.project.professor.allocation.dto.CourseSimpleDTO;
 import com.project.professor.allocation.entity.Course;
 import com.project.professor.allocation.mapper.CourseMapper;
@@ -65,12 +66,12 @@ public class CourseController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Course> save(@RequestBody Course course) {
-        course = courseService.save(course);
+    public ResponseEntity<CourseSimpleDTO> save(@RequestBody CourseCreationDTO courseDTO) {
+        Course course = courseService.save(mapper.toEntity(courseDTO));
         if (course == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(course, HttpStatus.CREATED);
+            return new ResponseEntity<>(mapper.toSimpleDTO(course), HttpStatus.CREATED);
         }
     }
 

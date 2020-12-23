@@ -1,6 +1,7 @@
 package com.project.professor.allocation.controller;
 
 import com.project.professor.allocation.dto.ProfessorCompleteDTO;
+import com.project.professor.allocation.dto.ProfessorCreationDTO;
 import com.project.professor.allocation.dto.ProfessorSimpleDTO;
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.mapper.ProfessorMapper;
@@ -78,12 +79,12 @@ public class ProfessorController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Professor> save(@RequestBody Professor professor) {
-        professor = professorService.save(professor);
+    public ResponseEntity<ProfessorSimpleDTO> save(@RequestBody ProfessorCreationDTO professorDTO) {
+        Professor professor = professorService.save(mapper.toEntity(professorDTO));
         if (professor == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(professor, HttpStatus.CREATED);
+            return new ResponseEntity<>(mapper.toSimpleDTO(professor), HttpStatus.CREATED);
         }
     }
 
