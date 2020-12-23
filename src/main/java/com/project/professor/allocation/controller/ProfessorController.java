@@ -1,5 +1,7 @@
 package com.project.professor.allocation.controller;
 
+import com.project.professor.allocation.dto.ProfessorCompleteDTO;
+import com.project.professor.allocation.dto.ProfessorSimpleDTO;
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.mapper.ProfessorMapper;
 import com.project.professor.allocation.service.ProfessorService;
@@ -34,9 +36,9 @@ public class ProfessorController {
     })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Professor>> findAll(@RequestParam(name = "name", required = false) String name) {
+    public ResponseEntity<List<ProfessorSimpleDTO>> findAll(@RequestParam(name = "name", required = false) String name) {
         List<Professor> professors = professorService.findAll(name);
-        return new ResponseEntity<>(professors, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(professors), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Find a professor")
@@ -47,12 +49,12 @@ public class ProfessorController {
     })
     @GetMapping(path = "/{professor_id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Professor> findById(@PathVariable(name = "professor_id") Long id) {
+    public ResponseEntity<ProfessorCompleteDTO> findById(@PathVariable(name = "professor_id") Long id) {
         Professor professor = professorService.findById(id);
         if (professor == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(professor, HttpStatus.OK);
+            return new ResponseEntity<>(mapper.toCompleteDTO(professor), HttpStatus.OK);
         }
     }
 
@@ -64,9 +66,9 @@ public class ProfessorController {
     })
     @GetMapping(path = "/department/{department_id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Professor>> findByDepartment(@PathVariable(name = "department_id") Long id) {
+    public ResponseEntity<List<ProfessorSimpleDTO>> findByDepartment(@PathVariable(name = "department_id") Long id) {
         List<Professor> professors = professorService.findByDepartment(id);
-        return new ResponseEntity<>(professors, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(professors), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Save a professor")

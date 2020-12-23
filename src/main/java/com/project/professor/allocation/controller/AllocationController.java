@@ -1,5 +1,6 @@
 package com.project.professor.allocation.controller;
 
+import com.project.professor.allocation.dto.AllocationCompleteDTO;
 import com.project.professor.allocation.dto.AllocationSimpleDTO;
 import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.mapper.AllocationMapper;
@@ -35,9 +36,9 @@ public class AllocationController {
     })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Allocation>> findAll() {
+    public ResponseEntity<List<AllocationSimpleDTO>> findAll() {
         List<Allocation> allocations = allocationService.findAll();
-        return new ResponseEntity<>(allocations, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(allocations), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Find an allocation by id")
@@ -48,12 +49,12 @@ public class AllocationController {
     })
     @GetMapping(path = "/{allocation_id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Allocation> findById(@PathVariable(name = "allocation_id") Long id) {
+    public ResponseEntity<AllocationCompleteDTO> findById(@PathVariable(name = "allocation_id") Long id) {
         Allocation allocation = allocationService.findById(id);
         if (allocation == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(allocation, HttpStatus.OK);
+            return new ResponseEntity<>(mapper.toCompleteDTO(allocation), HttpStatus.OK);
         }
     }
 
@@ -65,9 +66,9 @@ public class AllocationController {
     })
     @GetMapping(path = "/professor/{professor_id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Allocation>> findByProfessor(@PathVariable(name = "professor_id") Long id) {
+    public ResponseEntity<List<AllocationSimpleDTO>> findByProfessor(@PathVariable(name = "professor_id") Long id) {
         List<Allocation> allocations = allocationService.findByProfessor(id);
-        return new ResponseEntity<>(allocations, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(allocations), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Find allocations by course")
@@ -78,9 +79,9 @@ public class AllocationController {
     })
     @GetMapping(path = "/course/{course_id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Allocation>> findByCourse(@PathVariable(name = "course_id") Long id) {
+    public ResponseEntity<List<AllocationSimpleDTO>> findByCourse(@PathVariable(name = "course_id") Long id) {
         List<Allocation> allocations = allocationService.findByCourse(id);
-        return new ResponseEntity<>(allocations, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(allocations), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Save an allocation")
