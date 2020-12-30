@@ -90,7 +90,7 @@ public class AllocationService {
         }
     }
 
-    private boolean hasCollision(Allocation newAllocation) {
+    boolean hasCollision(Allocation newAllocation) {
         boolean hasCollision = false;
 
         List<Allocation> currentAllocations = allocationRepository.findByProfessorId(newAllocation.getProfessor().getId());
