@@ -1,6 +1,8 @@
 package com.project.professor.allocation.exception.handler;
 
 import com.project.professor.allocation.dto.ErrorDTO;
+import com.project.professor.allocation.exception.AllocationCollisionException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +21,18 @@ import java.util.Date;
 @ControllerAdvice
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = {Exception.class})
+    @ExceptionHandler(value = {AllocationCollisionException.class, DataIntegrityViolationException.class, Exception.class})
     protected final ResponseEntity<Object> handle(Exception ex, WebRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        return handleExceptionInternal(ex, getErrorDTO(ex, status, request), new HttpHeaders(), status, request);
+        if (ex instanceof AllocationCollisionException) {
+            status = HttpStatus.BAD_REQUEST;
+        } else if (ex instanceof DataIntegrityViolationException) {
+            status = HttpStatus.BAD_REQUEST;
+        }
+
+        return handleExceptionInternal(ex, getErrorDTO(ex, status, request), headers, status, request);
     }
 
     @Override
