@@ -62,11 +62,6 @@ public class DepartmentService {
     }
 
     private Department saveInternal(Department department) {
-        try {
-            return departmentRepository.save(department);
-        } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return departmentRepository.save(department);
     }
 }

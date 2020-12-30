@@ -3,7 +3,6 @@ package com.project.professor.allocation.service;
 import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.repository.ProfessorRepository;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -70,17 +69,12 @@ public class ProfessorService {
     }
 
     private Professor saveInternal(Professor professor) {
-        try {
-            professor = professorRepository.save(professor);
+        professor = professorRepository.save(professor);
 
-            Department department = professor.getDepartment();
-            department = departmentService.findById(department.getId());
-            professor.setDepartment(department);
+        Department department = professor.getDepartment();
+        department = departmentService.findById(department.getId());
+        professor.setDepartment(department);
 
-            return professor;
-        } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return professor;
     }
 }

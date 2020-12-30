@@ -3,8 +3,8 @@ package com.project.professor.allocation.service;
 import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.entity.Course;
 import com.project.professor.allocation.entity.Professor;
+import com.project.professor.allocation.exception.AllocationCollisionException;
 import com.project.professor.allocation.repository.AllocationRepository;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,25 +75,21 @@ public class AllocationService {
     }
 
     private Allocation saveInternal(Allocation allocation) {
-        try {
-            if (!hasCollision(allocation)) {
-                allocation = allocationRepository.save(allocation);
+        if (!hasCollision(allocation)) {
+            allocation = allocationRepository.save(allocation);
 
-                Professor professor = allocation.getProfessor();
-                professor = professorService.findById(professor.getId());
-                allocation.setProfessor(professor);
+            Professor professor = allocation.getProfessor();
+            professor = professorService.findById(professor.getId());
+            allocation.setProfessor(professor);
 
-                Course course = allocation.getCourse();
-                course = courseService.findById(course.getId());
-                allocation.setCourse(course);
+            Course course = allocation.getCourse();
+            course = courseService.findById(course.getId());
+            allocation.setCourse(course);
 
-                return allocation;
-            }
-        } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
+            return allocation;
+        } else {
+            throw new AllocationCollisionException(allocation);
         }
-
-        return null;
     }
 
     private boolean hasCollision(Allocation newAllocation) {

@@ -70,11 +70,7 @@ public class CourseController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<CourseSimpleDTO> save(@Valid @RequestBody CourseCreationDTO courseDTO) {
         Course course = courseService.save(mapper.toEntity(courseDTO));
-        if (course == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(mapper.toSimpleDTO(course), HttpStatus.CREATED);
-        }
+        return new ResponseEntity<>(mapper.toSimpleDTO(course), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Update a course")

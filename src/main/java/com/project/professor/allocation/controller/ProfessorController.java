@@ -83,11 +83,7 @@ public class ProfessorController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ProfessorSimpleDTO> save(@Valid @RequestBody ProfessorCreationDTO professorDTO) {
         Professor professor = professorService.save(mapper.toEntity(professorDTO));
-        if (professor == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(mapper.toSimpleDTO(professor), HttpStatus.CREATED);
-        }
+        return new ResponseEntity<>(mapper.toSimpleDTO(professor), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Update a professor")

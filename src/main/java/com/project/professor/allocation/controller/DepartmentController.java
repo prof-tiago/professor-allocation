@@ -70,11 +70,7 @@ public class DepartmentController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<DepartmentSimpleDTO> save(@Valid @RequestBody DepartmentCreationDTO departmentDTO) {
         Department department = departmentService.save(mapper.toEntity(departmentDTO));
-        if (department == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(mapper.toSimpleDTO(department), HttpStatus.CREATED);
-        }
+        return new ResponseEntity<>(mapper.toSimpleDTO(department), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Update a department")

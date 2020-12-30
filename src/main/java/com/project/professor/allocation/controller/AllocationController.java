@@ -96,11 +96,7 @@ public class AllocationController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<AllocationSimpleDTO> save(@Valid @RequestBody AllocationCreationDTO allocationDTO) {
         Allocation allocation = allocationService.save(mapper.toEntity(allocationDTO));
-        if (allocation == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        } else {
-            return new ResponseEntity<>(mapper.toSimpleDTO(allocation), HttpStatus.CREATED);
-        }
+        return new ResponseEntity<>(mapper.toSimpleDTO(allocation), HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Update an allocation")

@@ -2,7 +2,6 @@ package com.project.professor.allocation.service;
 
 import com.project.professor.allocation.entity.Course;
 import com.project.professor.allocation.repository.CourseRepository;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -62,11 +61,6 @@ public class CourseService {
     }
 
     private Course saveInternal(Course course) {
-        try {
-            return courseRepository.save(course);
-        } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return courseRepository.save(course);
     }
 }
