@@ -54,11 +54,7 @@ public class ProfessorController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ProfessorCompleteDTO> findById(@PathVariable(name = "professor_id") Long id) {
         Professor professor = professorService.findById(id);
-        if (professor == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(mapper.toCompleteDTO(professor), HttpStatus.OK);
-        }
+        return new ResponseEntity<>(mapper.toCompleteDTO(professor), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Find professors by department")
@@ -98,11 +94,7 @@ public class ProfessorController {
                                                      @Valid @RequestBody ProfessorCreationDTO professorDTO) {
         professorDTO.setId(id);
         Professor professor = professorService.update(mapper.toEntity(professorDTO));
-        if (professor == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(mapper.toSimpleDTO(professor), HttpStatus.OK);
-        }
+        return new ResponseEntity<>(mapper.toSimpleDTO(professor), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Delete a professor")

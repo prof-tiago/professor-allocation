@@ -54,11 +54,7 @@ public class CourseController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CourseCompleteDTO> findById(@PathVariable(name = "course_id") Long id) {
         Course course = courseService.findById(id);
-        if (course == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(mapper.toCompleteDTO(course), HttpStatus.OK);
-        }
+        return new ResponseEntity<>(mapper.toCompleteDTO(course), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Save a course")
@@ -85,11 +81,7 @@ public class CourseController {
                                                   @Valid @RequestBody CourseCreationDTO courseDTO) {
         courseDTO.setId(id);
         Course course = courseService.update(mapper.toEntity(courseDTO));
-        if (course == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(mapper.toSimpleDTO(course), HttpStatus.OK);
-        }
+        return new ResponseEntity<>(mapper.toSimpleDTO(course), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Delete a course")

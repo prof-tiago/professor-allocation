@@ -54,11 +54,7 @@ public class AllocationController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<AllocationCompleteDTO> findById(@PathVariable(name = "allocation_id") Long id) {
         Allocation allocation = allocationService.findById(id);
-        if (allocation == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(mapper.toCompleteDTO(allocation), HttpStatus.OK);
-        }
+        return new ResponseEntity<>(mapper.toCompleteDTO(allocation), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Find allocations by professor")
@@ -111,11 +107,7 @@ public class AllocationController {
                                                       @Valid @RequestBody AllocationCreationDTO allocationDTO) {
         allocationDTO.setId(id);
         Allocation allocation = allocationService.update(mapper.toEntity(allocationDTO));
-        if (allocation == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(mapper.toSimpleDTO(allocation), HttpStatus.OK);
-        }
+        return new ResponseEntity<>(mapper.toSimpleDTO(allocation), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Delete an allocation")

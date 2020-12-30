@@ -1,12 +1,13 @@
 package com.project.professor.allocation.service;
 
 import com.project.professor.allocation.entity.Department;
+import com.project.professor.allocation.exception.EntityInstanceNotFoundException;
 import com.project.professor.allocation.repository.DepartmentRepository;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @Transactional
 @Service
@@ -30,7 +31,7 @@ public class DepartmentService {
 
     @Transactional(readOnly = true)
     public Department findById(Long id) {
-        return departmentRepository.findById(id).orElse(null);
+        return departmentRepository.findById(id).orElseThrow(getEntityInstanceNotFoundExceptionSupplier(id));
     }
 
     public Department save(Department department) {
@@ -40,12 +41,8 @@ public class DepartmentService {
 
     public Department update(Department department) {
         Long id = department.getId();
-        if (id == null) {
-            return null;
-        }
-
-        if (!departmentRepository.existsById(id)) {
-            return null;
+        if (id == null || !departmentRepository.existsById(id)) {
+            throw getEntityInstanceNotFoundExceptionSupplier(id).get();
         }
 
         return saveInternal(department);
@@ -63,5 +60,9 @@ public class DepartmentService {
 
     private Department saveInternal(Department department) {
         return departmentRepository.save(department);
+    }
+
+    private Supplier<EntityInstanceNotFoundException> getEntityInstanceNotFoundExceptionSupplier(Long id) {
+        return () -> new EntityInstanceNotFoundException(Department.class, id);
     }
 }

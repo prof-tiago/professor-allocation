@@ -54,11 +54,7 @@ public class DepartmentController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<DepartmentCompleteDTO> findById(@PathVariable(name = "department_id") Long id) {
         Department department = departmentService.findById(id);
-        if (department == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(mapper.toCompleteDTO(department), HttpStatus.OK);
-        }
+        return new ResponseEntity<>(mapper.toCompleteDTO(department), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Save a department")
@@ -85,11 +81,7 @@ public class DepartmentController {
                                                       @Valid @RequestBody DepartmentCreationDTO departmentDTO) {
         departmentDTO.setId(id);
         Department department = departmentService.update(mapper.toEntity(departmentDTO));
-        if (department == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } else {
-            return new ResponseEntity<>(mapper.toSimpleDTO(department), HttpStatus.OK);
-        }
+        return new ResponseEntity<>(mapper.toSimpleDTO(department), HttpStatus.OK);
     }
 
     @ApiOperation(value = "Delete a department")

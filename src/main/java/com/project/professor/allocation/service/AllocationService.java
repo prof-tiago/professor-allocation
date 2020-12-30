@@ -4,11 +4,13 @@ import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.entity.Course;
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.exception.AllocationCollisionException;
+import com.project.professor.allocation.exception.EntityInstanceNotFoundException;
 import com.project.professor.allocation.repository.AllocationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @Transactional
 @Service
@@ -33,7 +35,7 @@ public class AllocationService {
 
     @Transactional(readOnly = true)
     public Allocation findById(Long id) {
-        return allocationRepository.findById(id).orElse(null);
+        return allocationRepository.findById(id).orElseThrow(getEntityInstanceNotFoundExceptionSupplier(id));
     }
 
     @Transactional(readOnly = true)
@@ -53,12 +55,8 @@ public class AllocationService {
 
     public Allocation update(Allocation allocation) {
         Long id = allocation.getId();
-        if (id == null) {
-            return null;
-        }
-
-        if (!allocationRepository.existsById(id)) {
-            return null;
+        if (id == null || !allocationRepository.existsById(id)) {
+            throw getEntityInstanceNotFoundExceptionSupplier(id).get();
         }
 
         return saveInternal(allocation);
@@ -112,5 +110,9 @@ public class AllocationService {
                 && currentAllocation.getDayOfWeek() == newAllocation.getDayOfWeek()
                 && currentAllocation.getStartHour().compareTo(newAllocation.getEndHour()) < 0
                 && newAllocation.getStartHour().compareTo(currentAllocation.getEndHour()) < 0;
+    }
+
+    private Supplier<EntityInstanceNotFoundException> getEntityInstanceNotFoundExceptionSupplier(Long id) {
+        return () -> new EntityInstanceNotFoundException(Allocation.class, id);
     }
 }

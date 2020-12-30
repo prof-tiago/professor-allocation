@@ -2,11 +2,13 @@ package com.project.professor.allocation.service;
 
 import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.entity.Professor;
+import com.project.professor.allocation.exception.EntityInstanceNotFoundException;
 import com.project.professor.allocation.repository.ProfessorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 @Transactional
 @Service
@@ -32,7 +34,7 @@ public class ProfessorService {
 
     @Transactional(readOnly = true)
     public Professor findById(Long id) {
-        return professorRepository.findById(id).orElse(null);
+        return professorRepository.findById(id).orElseThrow(getEntityInstanceNotFoundExceptionSupplier(id));
     }
 
     @Transactional(readOnly = true)
@@ -47,12 +49,8 @@ public class ProfessorService {
 
     public Professor update(Professor professor) {
         Long id = professor.getId();
-        if (id == null) {
-            return null;
-        }
-
-        if (!professorRepository.existsById(id)) {
-            return null;
+        if (id == null || !professorRepository.existsById(id)) {
+            throw getEntityInstanceNotFoundExceptionSupplier(id).get();
         }
 
         return saveInternal(professor);
@@ -76,5 +74,9 @@ public class ProfessorService {
         professor.setDepartment(department);
 
         return professor;
+    }
+
+    private Supplier<EntityInstanceNotFoundException> getEntityInstanceNotFoundExceptionSupplier(Long id) {
+        return () -> new EntityInstanceNotFoundException(Professor.class, id);
     }
 }
