@@ -1,5 +1,6 @@
 package com.project.professor.allocation.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 @Entity
 @Table(name = "allocation")
 
+@AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Allocation {
