@@ -1,6 +1,5 @@
 package com.project.professor.allocation.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -25,7 +24,6 @@ public class Professor {
     @Column(name = "cpf", unique = true, nullable = false)
     private String cpf;
 
-    @JsonIgnoreProperties({"professors"})
     @ManyToOne(optional = false)
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
