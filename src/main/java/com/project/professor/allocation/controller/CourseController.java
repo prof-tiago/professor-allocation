@@ -3,6 +3,7 @@ package com.project.professor.allocation.controller;
 import com.project.professor.allocation.dto.CourseCompleteDTO;
 import com.project.professor.allocation.dto.CourseCreationDTO;
 import com.project.professor.allocation.dto.CourseSimpleDTO;
+import com.project.professor.allocation.dto.ErrorDTO;
 import com.project.professor.allocation.entity.Course;
 import com.project.professor.allocation.mapper.CourseMapper;
 import com.project.professor.allocation.service.CourseService;
@@ -41,8 +42,8 @@ public class CourseController {
     @ApiOperation(value = "Find a course by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "Not Found")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
     })
     @GetMapping(path = "/{course_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -54,7 +55,7 @@ public class CourseController {
     @ApiOperation(value = "Save a course")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Created"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -66,8 +67,8 @@ public class CourseController {
     @ApiOperation(value = "Update a course")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "Not Found")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
     })
     @PutMapping(path = "/{course_id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)

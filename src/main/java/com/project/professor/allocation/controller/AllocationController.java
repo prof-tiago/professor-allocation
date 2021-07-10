@@ -3,6 +3,7 @@ package com.project.professor.allocation.controller;
 import com.project.professor.allocation.dto.AllocationCompleteDTO;
 import com.project.professor.allocation.dto.AllocationCreationDTO;
 import com.project.professor.allocation.dto.AllocationSimpleDTO;
+import com.project.professor.allocation.dto.ErrorDTO;
 import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.mapper.AllocationMapper;
 import com.project.professor.allocation.service.AllocationService;
@@ -42,8 +43,8 @@ public class AllocationController {
     @ApiOperation(value = "Find an allocation by id")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "Not Found")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
     })
     @GetMapping(path = "/{allocation_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -55,7 +56,7 @@ public class AllocationController {
     @ApiOperation(value = "Find allocations by professor")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
     })
     @GetMapping(path = "/professor/{professor_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -67,7 +68,7 @@ public class AllocationController {
     @ApiOperation(value = "Find allocations by course")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
     })
     @GetMapping(path = "/course/{course_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
@@ -79,7 +80,7 @@ public class AllocationController {
     @ApiOperation(value = "Save an allocation")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Created"),
-            @ApiResponse(code = 400, message = "Bad Request")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -91,8 +92,8 @@ public class AllocationController {
     @ApiOperation(value = "Update an allocation")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request"),
-            @ApiResponse(code = 404, message = "Not Found")
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
     })
     @PutMapping(path = "/{allocation_id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
