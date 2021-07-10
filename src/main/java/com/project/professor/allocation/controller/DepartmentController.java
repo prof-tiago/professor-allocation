@@ -1,5 +1,8 @@
 package com.project.professor.allocation.controller;
 
+import com.project.professor.allocation.dto.DepartmentCompleteDTO;
+import com.project.professor.allocation.dto.DepartmentCreationDTO;
+import com.project.professor.allocation.dto.DepartmentSimpleDTO;
 import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.mapper.DepartmentMapper;
 import com.project.professor.allocation.service.DepartmentService;
@@ -21,32 +24,32 @@ public class DepartmentController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Department>> findAll(@RequestParam(name = "name", required = false) String name) {
+    public ResponseEntity<List<DepartmentSimpleDTO>> findAll(@RequestParam(name = "name", required = false) String name) {
         List<Department> departments = departmentService.findAll(name);
-        return new ResponseEntity<>(departments, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(departments), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{department_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Department> findById(@PathVariable(name = "department_id") Long id) {
+    public ResponseEntity<DepartmentCompleteDTO> findById(@PathVariable(name = "department_id") Long id) {
         Department department = departmentService.findById(id);
-        return new ResponseEntity<>(department, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toCompleteDTO(department), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Department> save(@RequestBody Department departmentBody) {
-        Department department = departmentService.save(departmentBody);
-        return new ResponseEntity<>(department, HttpStatus.CREATED);
+    public ResponseEntity<DepartmentSimpleDTO> save(@RequestBody DepartmentCreationDTO departmentBody) {
+        Department department = departmentService.save(mapper.toEntity(departmentBody));
+        return new ResponseEntity<>(mapper.toSimpleDTO(department), HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{department_id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Department> update(@PathVariable(name = "department_id") Long id,
-                                             @RequestBody Department departmentBody) {
+    public ResponseEntity<DepartmentSimpleDTO> update(@PathVariable(name = "department_id") Long id,
+                                                      @RequestBody DepartmentCreationDTO departmentBody) {
         departmentBody.setId(id);
-        Department department = departmentService.update(departmentBody);
-        return new ResponseEntity<>(department, HttpStatus.OK);
+        Department department = departmentService.update(mapper.toEntity(departmentBody));
+        return new ResponseEntity<>(mapper.toSimpleDTO(department), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{department_id}")

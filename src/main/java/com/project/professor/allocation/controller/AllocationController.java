@@ -1,5 +1,8 @@
 package com.project.professor.allocation.controller;
 
+import com.project.professor.allocation.dto.AllocationCompleteDTO;
+import com.project.professor.allocation.dto.AllocationCreationDTO;
+import com.project.professor.allocation.dto.AllocationSimpleDTO;
 import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.mapper.AllocationMapper;
 import com.project.professor.allocation.service.AllocationService;
@@ -21,46 +24,46 @@ public class AllocationController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Allocation>> findAll() {
+    public ResponseEntity<List<AllocationSimpleDTO>> findAll() {
         List<Allocation> allocations = allocationService.findAll();
-        return new ResponseEntity<>(allocations, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(allocations), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{allocation_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Allocation> findById(@PathVariable(name = "allocation_id") Long id) {
+    public ResponseEntity<AllocationCompleteDTO> findById(@PathVariable(name = "allocation_id") Long id) {
         Allocation allocation = allocationService.findById(id);
-        return new ResponseEntity<>(allocation, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toCompleteDTO(allocation), HttpStatus.OK);
     }
 
     @GetMapping(path = "/professor/{professor_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Allocation>> findByProfessor(@PathVariable(name = "professor_id") Long id) {
+    public ResponseEntity<List<AllocationSimpleDTO>> findByProfessor(@PathVariable(name = "professor_id") Long id) {
         List<Allocation> allocations = allocationService.findByProfessor(id);
-        return new ResponseEntity<>(allocations, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(allocations), HttpStatus.OK);
     }
 
     @GetMapping(path = "/course/{course_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Allocation>> findByCourse(@PathVariable(name = "course_id") Long id) {
+    public ResponseEntity<List<AllocationSimpleDTO>> findByCourse(@PathVariable(name = "course_id") Long id) {
         List<Allocation> allocations = allocationService.findByCourse(id);
-        return new ResponseEntity<>(allocations, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(allocations), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Allocation> save(@RequestBody Allocation allocationBody) {
-        Allocation allocation = allocationService.save(allocationBody);
-        return new ResponseEntity<>(allocation, HttpStatus.CREATED);
+    public ResponseEntity<AllocationSimpleDTO> save(@RequestBody AllocationCreationDTO allocationBody) {
+        Allocation allocation = allocationService.save(mapper.toEntity(allocationBody));
+        return new ResponseEntity<>(mapper.toSimpleDTO(allocation), HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{allocation_id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Allocation> update(@PathVariable(name = "allocation_id") Long id,
-                                             @RequestBody Allocation allocationBody) {
+    public ResponseEntity<AllocationSimpleDTO> update(@PathVariable(name = "allocation_id") Long id,
+                                                      @RequestBody AllocationCreationDTO allocationBody) {
         allocationBody.setId(id);
-        Allocation allocation = allocationService.update(allocationBody);
-        return new ResponseEntity<>(allocation, HttpStatus.OK);
+        Allocation allocation = allocationService.update(mapper.toEntity(allocationBody));
+        return new ResponseEntity<>(mapper.toSimpleDTO(allocation), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{allocation_id}")

@@ -1,5 +1,8 @@
 package com.project.professor.allocation.controller;
 
+import com.project.professor.allocation.dto.CourseCompleteDTO;
+import com.project.professor.allocation.dto.CourseCreationDTO;
+import com.project.professor.allocation.dto.CourseSimpleDTO;
 import com.project.professor.allocation.entity.Course;
 import com.project.professor.allocation.mapper.CourseMapper;
 import com.project.professor.allocation.service.CourseService;
@@ -20,32 +23,32 @@ public class CourseController {
     private final CourseMapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Course>> findAll(@RequestParam(name = "name", required = false) String name) {
+    public ResponseEntity<List<CourseSimpleDTO>> findAll(@RequestParam(name = "name", required = false) String name) {
         List<Course> courses = courseService.findAll(name);
-        return new ResponseEntity<>(courses, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(courses), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{course_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Course> findById(@PathVariable(name = "course_id") Long id) {
+    public ResponseEntity<CourseCompleteDTO> findById(@PathVariable(name = "course_id") Long id) {
         Course course = courseService.findById(id);
-        return new ResponseEntity<>(course, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toCompleteDTO(course), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Course> save(@RequestBody Course courseBody) {
-        Course course = courseService.save(courseBody);
-        return new ResponseEntity<>(course, HttpStatus.CREATED);
+    public ResponseEntity<CourseSimpleDTO> save(@RequestBody CourseCreationDTO courseBody) {
+        Course course = courseService.save(mapper.toEntity(courseBody));
+        return new ResponseEntity<>(mapper.toSimpleDTO(course), HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{course_id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Course> update(@PathVariable(name = "course_id") Long id,
-                                         @RequestBody Course courseBody) {
+    public ResponseEntity<CourseSimpleDTO> update(@PathVariable(name = "course_id") Long id,
+                                                  @RequestBody CourseCreationDTO courseBody) {
         courseBody.setId(id);
-        Course course = courseService.update(courseBody);
-        return new ResponseEntity<>(course, HttpStatus.OK);
+        Course course = courseService.update(mapper.toEntity(courseBody));
+        return new ResponseEntity<>(mapper.toSimpleDTO(course), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{course_id}")

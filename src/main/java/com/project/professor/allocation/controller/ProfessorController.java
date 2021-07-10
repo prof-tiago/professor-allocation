@@ -1,5 +1,8 @@
 package com.project.professor.allocation.controller;
 
+import com.project.professor.allocation.dto.ProfessorCompleteDTO;
+import com.project.professor.allocation.dto.ProfessorCreationDTO;
+import com.project.professor.allocation.dto.ProfessorSimpleDTO;
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.mapper.ProfessorMapper;
 import com.project.professor.allocation.service.ProfessorService;
@@ -21,39 +24,39 @@ public class ProfessorController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Professor>> findAll(@RequestParam(name = "name", required = false) String name) {
+    public ResponseEntity<List<ProfessorSimpleDTO>> findAll(@RequestParam(name = "name", required = false) String name) {
         List<Professor> professors = professorService.findAll(name);
-        return new ResponseEntity<>(professors, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(professors), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{professor_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Professor> findById(@PathVariable(name = "professor_id") Long id) {
+    public ResponseEntity<ProfessorCompleteDTO> findById(@PathVariable(name = "professor_id") Long id) {
         Professor professor = professorService.findById(id);
-        return new ResponseEntity<>(professor, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toCompleteDTO(professor), HttpStatus.OK);
     }
 
     @GetMapping(path = "/department/{department_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<List<Professor>> findByDepartment(@PathVariable(name = "department_id") Long id) {
+    public ResponseEntity<List<ProfessorSimpleDTO>> findByDepartment(@PathVariable(name = "department_id") Long id) {
         List<Professor> professors = professorService.findByDepartment(id);
-        return new ResponseEntity<>(professors, HttpStatus.OK);
+        return new ResponseEntity<>(mapper.toSimpleDTO(professors), HttpStatus.OK);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Professor> save(@RequestBody Professor professorBody) {
-        Professor professor = professorService.save(professorBody);
-        return new ResponseEntity<>(professor, HttpStatus.CREATED);
+    public ResponseEntity<ProfessorSimpleDTO> save(@RequestBody ProfessorCreationDTO professorBody) {
+        Professor professor = professorService.save(mapper.toEntity(professorBody));
+        return new ResponseEntity<>(mapper.toSimpleDTO(professor), HttpStatus.CREATED);
     }
 
     @PutMapping(path = "/{professor_id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Professor> update(@PathVariable(name = "professor_id") Long id,
-                                            @RequestBody Professor professorBody) {
+    public ResponseEntity<ProfessorSimpleDTO> update(@PathVariable(name = "professor_id") Long id,
+                                                     @RequestBody ProfessorCreationDTO professorBody) {
         professorBody.setId(id);
-        Professor professor = professorService.update(professorBody);
-        return new ResponseEntity<>(professor, HttpStatus.OK);
+        Professor professor = professorService.update(mapper.toEntity(professorBody));
+        return new ResponseEntity<>(mapper.toSimpleDTO(professor), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{professor_id}")
