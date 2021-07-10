@@ -6,11 +6,13 @@ import com.project.professor.allocation.exception.EntityInstanceNotFoundExceptio
 import com.project.professor.allocation.repository.ProfessorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class ProfessorService {
@@ -18,6 +20,7 @@ public class ProfessorService {
     private final ProfessorRepository professorRepository;
     private final DepartmentService departmentService;
 
+    @Transactional(readOnly = true)
     public List<Professor> findAll(String name) {
         if (name == null) {
             return professorRepository.findAll();
@@ -26,10 +29,12 @@ public class ProfessorService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Professor findById(Long id) {
         return professorRepository.findById(id).orElseThrow(getEntityInstanceNotFoundExceptionSupplier(id));
     }
 
+    @Transactional(readOnly = true)
     public List<Professor> findByDepartment(Long departmentId) {
         return professorRepository.findByDepartmentId(departmentId);
     }

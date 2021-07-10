@@ -9,10 +9,12 @@ import com.project.professor.allocation.exception.EntityIntegrityViolationExcept
 import com.project.professor.allocation.repository.AllocationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.function.Supplier;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class AllocationService {
@@ -21,18 +23,22 @@ public class AllocationService {
     private final ProfessorService professorService;
     private final CourseService courseService;
 
+    @Transactional(readOnly = true)
     public List<Allocation> findAll() {
         return allocationRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Allocation findById(Long id) {
         return allocationRepository.findById(id).orElseThrow(getEntityInstanceNotFoundExceptionSupplier(id));
     }
 
+    @Transactional(readOnly = true)
     public List<Allocation> findByProfessor(Long professorId) {
         return allocationRepository.findByProfessorId(professorId);
     }
 
+    @Transactional(readOnly = true)
     public List<Allocation> findByCourse(Long courseId) {
         return allocationRepository.findByCourseId(courseId);
     }
