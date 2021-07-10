@@ -6,6 +6,7 @@ import com.project.professor.allocation.dto.AllocationSimpleDTO;
 import com.project.professor.allocation.entity.Allocation;
 import com.project.professor.allocation.mapper.AllocationMapper;
 import com.project.professor.allocation.service.AllocationService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Api(tags = {"courses"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/allocations")

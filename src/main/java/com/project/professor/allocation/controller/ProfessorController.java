@@ -6,6 +6,7 @@ import com.project.professor.allocation.dto.ProfessorSimpleDTO;
 import com.project.professor.allocation.entity.Professor;
 import com.project.professor.allocation.mapper.ProfessorMapper;
 import com.project.professor.allocation.service.ProfessorService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Api(tags = {"professors"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/professors")

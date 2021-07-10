@@ -6,6 +6,7 @@ import com.project.professor.allocation.dto.DepartmentSimpleDTO;
 import com.project.professor.allocation.entity.Department;
 import com.project.professor.allocation.mapper.DepartmentMapper;
 import com.project.professor.allocation.service.DepartmentService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Api(tags = {"departments"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/departments")
