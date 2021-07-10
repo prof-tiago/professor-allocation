@@ -1,6 +1,7 @@
 package com.project.professor.allocation.controller;
 
 import com.project.professor.allocation.entity.Department;
+import com.project.professor.allocation.mapper.DepartmentMapper;
 import com.project.professor.allocation.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 public class DepartmentController {
 
     private final DepartmentService departmentService;
+    private final DepartmentMapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)

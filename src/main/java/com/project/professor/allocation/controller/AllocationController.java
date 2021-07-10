@@ -1,6 +1,7 @@
 package com.project.professor.allocation.controller;
 
 import com.project.professor.allocation.entity.Allocation;
+import com.project.professor.allocation.mapper.AllocationMapper;
 import com.project.professor.allocation.service.AllocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 public class AllocationController {
 
     private final AllocationService allocationService;
+    private final AllocationMapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)

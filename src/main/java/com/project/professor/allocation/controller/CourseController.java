@@ -1,6 +1,7 @@
 package com.project.professor.allocation.controller;
 
 import com.project.professor.allocation.entity.Course;
+import com.project.professor.allocation.mapper.CourseMapper;
 import com.project.professor.allocation.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 public class CourseController {
 
     private final CourseService courseService;
+    private final CourseMapper mapper;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Course>> findAll(@RequestParam(name = "name", required = false) String name) {
