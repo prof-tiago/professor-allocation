@@ -86,8 +86,7 @@ public class CourseController {
 
     @ApiOperation(value = "Delete a course")
     @ApiResponses({
-            @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
+            @ApiResponse(code = 204, message = "No Content")
     })
     @DeleteMapping(path = "/{course_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

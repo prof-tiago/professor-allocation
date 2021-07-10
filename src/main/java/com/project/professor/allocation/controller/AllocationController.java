@@ -60,8 +60,7 @@ public class AllocationController {
     @ApiOperation(value = "Find allocations by professor")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
-            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
     })
     @GetMapping(path = "/professor/{professor_id}")
     @ResponseStatus(HttpStatus.OK)
@@ -73,8 +72,7 @@ public class AllocationController {
     @ApiOperation(value = "Find allocations by course")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
-            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
     })
     @GetMapping(path = "/course/{course_id}")
     @ResponseStatus(HttpStatus.OK)
@@ -112,8 +110,7 @@ public class AllocationController {
 
     @ApiOperation(value = "Delete an allocation")
     @ApiResponses({
-            @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
+            @ApiResponse(code = 204, message = "No Content")
     })
     @DeleteMapping(path = "/{allocation_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

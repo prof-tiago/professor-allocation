@@ -86,8 +86,7 @@ public class DepartmentController {
 
     @ApiOperation(value = "Delete a department")
     @ApiResponses({
-            @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
+            @ApiResponse(code = 204, message = "No Content")
     })
     @DeleteMapping(path = "/{department_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

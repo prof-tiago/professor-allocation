@@ -3,19 +3,17 @@ package com.project.professor.allocation.config;
 import com.project.professor.allocation.ProfessorAllocationApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.http.HttpMethod;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 
 @Configuration
-@EnableSwagger2
 public class SwaggerConfig {
 
     @Bean
@@ -25,14 +23,14 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false)
-                .globalResponseMessage(RequestMethod.GET, Collections.emptyList())
-                .globalResponseMessage(RequestMethod.HEAD, Collections.emptyList())
-                .globalResponseMessage(RequestMethod.POST, Collections.emptyList())
-                .globalResponseMessage(RequestMethod.PUT, Collections.emptyList())
-                .globalResponseMessage(RequestMethod.PATCH, Collections.emptyList())
-                .globalResponseMessage(RequestMethod.DELETE, Collections.emptyList())
-                .globalResponseMessage(RequestMethod.OPTIONS, Collections.emptyList())
-                .globalResponseMessage(RequestMethod.TRACE, Collections.emptyList())
+                .globalResponses(HttpMethod.GET, Collections.emptyList())
+                .globalResponses(HttpMethod.HEAD, Collections.emptyList())
+                .globalResponses(HttpMethod.POST, Collections.emptyList())
+                .globalResponses(HttpMethod.PUT, Collections.emptyList())
+                .globalResponses(HttpMethod.PATCH, Collections.emptyList())
+                .globalResponses(HttpMethod.DELETE, Collections.emptyList())
+                .globalResponses(HttpMethod.OPTIONS, Collections.emptyList())
+                .globalResponses(HttpMethod.TRACE, Collections.emptyList())
                 .apiInfo(getApiInfo());
     }
 

@@ -60,8 +60,7 @@ public class ProfessorController {
     @ApiOperation(value = "Find professors by department")
     @ApiResponses({
             @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class),
-            @ApiResponse(code = 404, message = "Not Found", response = ErrorDTO.class)
+            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
     })
     @GetMapping(path = "/department/{department_id}")
     @ResponseStatus(HttpStatus.OK)
@@ -99,8 +98,7 @@ public class ProfessorController {
 
     @ApiOperation(value = "Delete a professor")
     @ApiResponses({
-            @ApiResponse(code = 204, message = "No Content"),
-            @ApiResponse(code = 400, message = "Bad Request", response = ErrorDTO.class)
+            @ApiResponse(code = 204, message = "No Content")
     })
     @DeleteMapping(path = "/{professor_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

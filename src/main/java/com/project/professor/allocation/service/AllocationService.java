@@ -73,7 +73,7 @@ public class AllocationService {
     }
 
     private Allocation saveInternal(Allocation allocation) {
-        if (!hasCollision(allocation)) {
+        if (isEndHourGreaterThanStartHour(allocation) && !hasCollision(allocation)) {
             allocation = allocationRepository.save(allocation);
 
             Professor professor = allocation.getProfessor();
@@ -88,6 +88,11 @@ public class AllocationService {
         } else {
             throw new AllocationCollisionException(allocation);
         }
+    }
+
+    boolean isEndHourGreaterThanStartHour(Allocation allocation) {
+        return allocation != null && allocation.getStartHour() != null && allocation.getEndHour() != null
+                && allocation.getEndHour().compareTo(allocation.getStartHour()) > 0;
     }
 
     boolean hasCollision(Allocation newAllocation) {
