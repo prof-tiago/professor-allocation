@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class ProfessorController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ProfessorSimpleDTO> save(@RequestBody ProfessorCreationDTO professorBody) {
+    public ResponseEntity<ProfessorSimpleDTO> save(@Valid @RequestBody ProfessorCreationDTO professorBody) {
         Professor professor = professorService.save(mapper.toEntity(professorBody));
         return new ResponseEntity<>(mapper.toSimpleDTO(professor), HttpStatus.CREATED);
     }
@@ -53,7 +54,7 @@ public class ProfessorController {
     @PutMapping(path = "/{professor_id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<ProfessorSimpleDTO> update(@PathVariable(name = "professor_id") Long id,
-                                                     @RequestBody ProfessorCreationDTO professorBody) {
+                                                     @Valid @RequestBody ProfessorCreationDTO professorBody) {
         professorBody.setId(id);
         Professor professor = professorService.update(mapper.toEntity(professorBody));
         return new ResponseEntity<>(mapper.toSimpleDTO(professor), HttpStatus.OK);

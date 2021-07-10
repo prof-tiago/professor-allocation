@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -52,7 +53,7 @@ public class AllocationController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<AllocationSimpleDTO> save(@RequestBody AllocationCreationDTO allocationBody) {
+    public ResponseEntity<AllocationSimpleDTO> save(@Valid @RequestBody AllocationCreationDTO allocationBody) {
         Allocation allocation = allocationService.save(mapper.toEntity(allocationBody));
         return new ResponseEntity<>(mapper.toSimpleDTO(allocation), HttpStatus.CREATED);
     }
@@ -60,7 +61,7 @@ public class AllocationController {
     @PutMapping(path = "/{allocation_id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<AllocationSimpleDTO> update(@PathVariable(name = "allocation_id") Long id,
-                                                      @RequestBody AllocationCreationDTO allocationBody) {
+                                                      @Valid @RequestBody AllocationCreationDTO allocationBody) {
         allocationBody.setId(id);
         Allocation allocation = allocationService.update(mapper.toEntity(allocationBody));
         return new ResponseEntity<>(mapper.toSimpleDTO(allocation), HttpStatus.OK);

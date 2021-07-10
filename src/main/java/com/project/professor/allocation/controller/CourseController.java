@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -37,7 +38,7 @@ public class CourseController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<CourseSimpleDTO> save(@RequestBody CourseCreationDTO courseBody) {
+    public ResponseEntity<CourseSimpleDTO> save(@Valid @RequestBody CourseCreationDTO courseBody) {
         Course course = courseService.save(mapper.toEntity(courseBody));
         return new ResponseEntity<>(mapper.toSimpleDTO(course), HttpStatus.CREATED);
     }
@@ -45,7 +46,7 @@ public class CourseController {
     @PutMapping(path = "/{course_id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<CourseSimpleDTO> update(@PathVariable(name = "course_id") Long id,
-                                                  @RequestBody CourseCreationDTO courseBody) {
+                                                  @Valid @RequestBody CourseCreationDTO courseBody) {
         courseBody.setId(id);
         Course course = courseService.update(mapper.toEntity(courseBody));
         return new ResponseEntity<>(mapper.toSimpleDTO(course), HttpStatus.OK);
