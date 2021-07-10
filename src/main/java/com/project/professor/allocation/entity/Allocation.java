@@ -1,5 +1,13 @@
 package com.project.professor.allocation.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 import java.time.DayOfWeek;
 import java.util.Date;
@@ -16,18 +24,28 @@ public class Allocation {
     @Column(name = "day", nullable = false)
     private DayOfWeek dayOfWeek;
 
+    @ApiModelProperty(example = "HH:mmZ")
+    @JsonFormat(pattern = "HH:mmZ")
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
     @Temporal(TemporalType.TIME)
     @Column(name = "start", nullable = false)
     private Date startHour;
 
+    @ApiModelProperty(example = "HH:mmZ")
+    @JsonFormat(pattern = "HH:mmZ")
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
     @Temporal(TemporalType.TIME)
     @Column(name = "end", nullable = false)
     private Date endHour;
 
+    @JsonIgnoreProperties({"allocations"})
     @ManyToOne(optional = false)
     @JoinColumn(name = "professor_id", nullable = false)
     private Professor professor;
 
+    @JsonIgnoreProperties({"allocations"})
     @ManyToOne(optional = false)
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
